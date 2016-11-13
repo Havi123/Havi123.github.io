@@ -1,18 +1,358 @@
-extends base
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-block title
-  title= __('archive') + ' | ' + config.title
-block content
-  .post
-    .post-archive
-      .archive-wrap
-        each posts, year in _.groupBy(page.posts.toArray(), function(p){return -p.date.format('YYYY')})
-          h2= -year
-          ul.listing
-            for post in posts
-                li
-                  a(href=url_for(post.path), title=post.title)
-                    span.date= post.date.format('MM') + '月' + post.date.format('DD')+ '日'
-                    span.tite
-                      +title(post)              
-  include _partial/paginator.jade
+
+
+<title>
+  
+    Archive: 2016/9
+  
+</title>
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/archives/2016/09/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+
+
+  <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
+
+
+
+  <link rel="icon" href="/favicon.png">
+
+
+<link rel="stylesheet" href="/perfect-scrollbar/css/perfect-scrollbar.min.css">
+<link rel="stylesheet" href="/styles/main.css">
+
+
+
+
+
+
+</head>
+<body
+  
+    class="monochrome"
+  
+  >
+  <div class="mobile-header">
+  <button class="sidebar-toggle" type="button">
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+  </button>
+  <a class="title" href="/">Hexo</a>
+</div>
+
+  <div class="main-container">
+    <div class="sidebar">
+  <div class="header">
+    <h1 class="title"><a href="/">Hexo</a></h1>
+    
+    <div class="info">
+      <div class="content">
+        
+        
+          <div class="author">John Doe</div>
+        
+      </div>
+      
+        <div class="avatar">
+          
+            <a href="/about"><img src="https://cn.gravatar.com/avatar/35fef74d731255cd569c2c2b0b9e87e4?s=200"></a>
+          
+        </div>
+      
+    </div>
+  </div>
+  <div class="body">
+    
+      
+        <ul class="nav">
+          
+            
+              <li class="category-list-container">
+                <a href="javascript:;">Category</a>
+                
+              </li>
+            
+          
+            
+              <li class="tag-list-container">
+                <a href="javascript:;">Tag</a>
+                
+              </li>
+            
+          
+            
+              <li class="archive-list-container">
+                <a href="javascript:;">Archive</a>
+                <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">4</span></li></ul>
+              </li>
+            
+          
+        </ul>
+      
+        <ul class="nav">
+          
+            
+              <li>
+                <a href="/" title="Homepage">Homepage</a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/archives" title="By Year">By Year</a>
+              </li>
+            
+          
+        </ul>
+      
+        <ul class="nav">
+          
+            
+              <li>
+                <a href="https://github.com/denjones/hexo-theme-chan" title="Chan" target="_blank" rel="external">Chan</a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="https://github.com/denjones" title="Github" target="_blank" rel="external">Github</a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/atom.xml" title="RSS">RSS</a>
+              </li>
+            
+          
+        </ul>
+      
+    
+  </div>
+</div>
+
+    <div class="main-content">
+      
+        <div style="max-width: 1000px">
+      
+          
+
+  
+  
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <h1><a href="/archives/2016" class="archive-year">2016</a></h1>
+        </div>
+        <div class="post-list">
+    
+  
+
+    <div class="post-list-item article">
+      <h3 class="article-header">
+        <a href="/2016/09/08/优化listview方法/" >
+  优化listview方法
+</a>
+
+      </h3>
+      
+
+      <div class="article-info">
+        <a href="/2016/09/08/优化listview方法/"><span class="article-date">
+  2016-09-08
+</span>
+</a>
+        
+
+        
+
+      </div>
+      <div class="article-entry">
+        
+          <p>首先，虽然大家都知道，还是提一下，利用好 convertView 来重用 View，切忌每次 getView() 都新建。ListView 的核心原理就是重用 View。ListView 中有一个回收器，Item 滑出界面的时候 View 会回收到这里，需要显示新的 Item 的时候，就尽量重用回收器里面的 View。<br>利用好 View Type，例如你的 ListView 中有几个类型的 Item，需要给每个类型创建不同的 View，这样有利于 ListView 的回收，当然类型不能太多；<br>尽量让 ItemView 的 Layout 层次结构简单，这是所有 Layout 都必须遵循的；<br>善用自定义 View，自定义 View 可以有效的减小 Layout 的层级，而且对绘制过程可以很好的控制；<br>尽量能保证 Adapter 的 hasStableIds() 返回 true，这样在 notifyDataSetChanged() 的时候，如果 id 不变，ListView 将不会重新绘制这个 View，达到优化的目的；<br>每个 Item 不能太高，特别是不要超过屏幕的高度，可以参考 Facebook 的优化方法，把特别复杂的 Item 分解成若干小的 Item，特别推荐看一下这个文章：<a href="https://code.facebook.com/posts/879498888759525/fast-rendering-news-feed-on-android/" target="_blank" rel="external">https://code.facebook.com/posts/879498888759525/fast-rendering-news-feed-on-android/</a><br>为了保证 ListView 滑动的流畅性，getView() 中要做尽量少的事情，不要有耗时的操作。特别是滑动的时候不要加载图片，停下来再加载，这个库可以帮助你 Glide：<a href="https://github.com/bumptech/glide" target="_blank" rel="external">https://github.com/bumptech/glide</a><br>使用 RecycleView 代替。 ListView 每次更新数据都要 notifyDataSetChanged()，有些太暴力了。RecycleView 在性能和可定制性上都有很大的改善，推荐使用。<br>有时候，需要从根本上考虑，是否真的要使用 ListView 来实现你的需求，或者是否有其他选择？<br>写的有点散，有些也是相互穿插的。这里面提到的都是一些原则，详细的解决方案，每个都能在网上找到相关的文章。</p>
+
+        
+      </div>
+    </div>
+
+  
+
+  
+  
+    
+  
+
+    <div class="post-list-item article">
+      <h3 class="article-header">
+        <a href="/2016/09/07/helloword/" >
+  helloword
+</a>
+
+      </h3>
+      
+
+      <div class="article-info">
+        <a href="/2016/09/07/helloword/"><span class="article-date">
+  2016-09-07
+</span>
+</a>
+        
+
+        
+
+      </div>
+      <div class="article-entry">
+        
+          
+        
+      </div>
+    </div>
+
+  
+
+  
+  
+    
+  
+
+    <div class="post-list-item article">
+      <h3 class="article-header">
+        <a href="/2016/09/07/hello-world/" >
+  Hello World
+</a>
+
+      </h3>
+      
+
+      <div class="article-info">
+        <a href="/2016/09/07/hello-world/"><span class="article-date">
+  2016-09-07
+</span>
+</a>
+        
+
+        
+
+      </div>
+      <div class="article-entry">
+        
+          <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+
+        
+      </div>
+    </div>
+
+  
+
+
+
+
+
+
+          <div class="main-footer">
+  
+    © 2016 Hexo - Powered by <a href="http://hexo.io" target="_blank">Hexo</a> - Theme <a href="https://github.com/denjones/hexo-theme-chan" target="_blank">Chan</a>
+  
+</div>
+
+      
+        </div>
+      
+    </div>
+  </div>
+  <script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+  <link rel="stylesheet" href="/PhotoSwipe/photoswipe.css">
+  <link rel="stylesheet" href="/PhotoSwipe/default-skin/default-skin.css">
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+  <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe.
+             It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+      <!-- Container that holds slides.
+                PhotoSwipe keeps only 3 of them in the DOM to save memory.
+                Don't modify these 3 pswp__item elements, data is added later on. -->
+      <div class="pswp__container">
+        <div class="pswp__item"></div>
+        <div class="pswp__item"></div>
+        <div class="pswp__item"></div>
+      </div>
+
+      <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+      <div class="pswp__ui pswp__ui--hidden">
+
+        <div class="pswp__top-bar">
+
+          <!--  Controls are self-explanatory. Order can be changed. -->
+
+          <div class="pswp__counter"></div>
+
+          <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+          <button class="pswp__button pswp__button--share" title="Share"></button>
+
+          <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+          <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+          <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+          <!-- element will get class pswp__preloader--active when preloader is running -->
+          <div class="pswp__preloader">
+            <div class="pswp__preloader__icn">
+              <div class="pswp__preloader__cut">
+                <div class="pswp__preloader__donut"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+          <div class="pswp__share-tooltip"></div>
+        </div>
+
+        <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+
+        <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+
+        <div class="pswp__caption">
+          <div class="pswp__caption__center"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/PhotoSwipe/photoswipe.js"></script>
+  <script src="/PhotoSwipe/photoswipe-ui-default.js"></script>
+
+
+<script src="/perfect-scrollbar/js/min/perfect-scrollbar.min.js"></script>
+<script src="/scripts/main.js"></script>
+
+</body>
+</html>
